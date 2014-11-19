@@ -1,0 +1,28 @@
+[33mcommit 748d5e85fbaa2772dead13d8ecb8fecb316ce922[m
+Merge: f848099 67303b9
+Author: leconize <leconize@users.noreply.github.com>
+Date:   Wed Nov 19 14:57:07 2014 +0700
+
+    Merge pull request #1 from kijtana-ch/patch-1
+    
+    Update and rename test.py to main.py
+
+[33mcommit 67303b9e7c2b74f4cc1243904801a59eec06e0a9[m
+Author: kijtana-ch <s7070006@kmitl.ac.th>
+Date:   Wed Nov 19 14:56:31 2014 +0700
+
+    Update and rename test.py to main.py
+    
+    create two button
+
+[33mcommit f84809943b41e0bba77d08db7e18fa2c09e59ffb[m
+Author: Suphawit Getmark <s7070117@kmitl.ac.th>
+Date:   Wed Nov 19 12:45:04 2014 +0700
+
+    Test Git
+
+[33mcommit d49be8685a122276915cff13fbc688304c75eee1[m
+Author: leconize <leconize@users.noreply.github.com>
+Date:   Mon Nov 17 14:55:24 2014 +0700
+
+    Initial commit
