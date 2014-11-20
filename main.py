@@ -55,7 +55,7 @@ class Test(Frame):
 def main():
     
     root = Tk()
-    root.geometry("250x150+300+300")
+    root.geometry("350x150+300+300")
     app = Test(root)
     root.mainloop()
 
