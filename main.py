@@ -12,7 +12,7 @@ class Test(Frame):
 
     def initUI(self): # User Interface 
       
-        self.parent.title("Simple")
+        self.parent.title("Graph-Creater")
         self.pack(fill=BOTH, expand=1)
         label = Label(self, text = "Graph Creater")
         label.grid(row = 0, column = 1)
