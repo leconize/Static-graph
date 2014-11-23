@@ -3,9 +3,8 @@ from Tkinter import *
 
 class Test(Frame):
     
-    counter = 0
     def __init__(self, parent):
-        Frame.__init__(self, parent,)
+        Frame.__init__(self, parent)
          
         self.parent = parent
         
@@ -32,21 +31,18 @@ class Test(Frame):
         test = Button(self, text = "Testing", command=self.on_button)
         test.grid(row = 7, column =1)
 
-        self.n_window = Button(self, text = "Create new window", command = self.create_window)
+        self.n_window = Button(self, text = "Drawing Canvas", command = self.create_window)
         self.n_window.grid(row = 8, column =2)
         
     def on_button(self):
         print self.data1.get()
 
     def create_window(self):
-        self.counter += 1
         t = Toplevel(self)
-        t.wm_title("Window #%s" % self.counter)
-        l = Label(t, text = "This is window #%s" % self.counter)
-        l.pack(side = "top", fill = "both", expand = True, padx=100\
-               ,pady = 100)
-
-
+        graph = Canvas(t, width = 500,height = 500, borderwidth=5,\
+                       background='white')
+        graph.pack()
+        
 
 def main():
     
