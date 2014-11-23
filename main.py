@@ -52,6 +52,10 @@ class Test(Frame):
         circle = Button(self, text = "Circle Graph", fg = "Purple")#Button for create circle graph
         bar.grid(row = 6, column = 4)
         circle.grid(row = 6, column = 1)
+        paper = Canvas(self, width = 500, height = 250)
+        paper.pack()
+        def circle(x, y):
+            paper.create_oval(x, x, y, y)
 def main():
     
     root = Tk()
