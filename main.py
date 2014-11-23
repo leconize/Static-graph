@@ -4,7 +4,7 @@ from Tkinter import *
 class Test(Frame):
     
     def __init__(self, parent):
-        Frame.__init__(self, parent,)
+        Frame.__init__(self, parent)
          
         self.parent = parent
         
