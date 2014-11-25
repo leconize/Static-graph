@@ -3,6 +3,9 @@ from Tkinter import *
 
 class Test(Frame):
     
+    count = 0
+    data = {}
+    
     def __init__(self, parent):
         Frame.__init__(self, parent)
          
@@ -18,36 +21,41 @@ class Test(Frame):
         
         label = Label(self, text = "Graph Creater")
         label.grid(row = 0, column = 1)
-        Label(self, text = "Data1").grid(row = 1)
+        Label(self, text = "Name").grid(row = 1)
+        Label(self, text = "Value").grid(row = 1,column = 2)
         
-        self.data1 = Entry(self)
-        self.data1.grid(row = 1, column = 1)
+        self.data_name = Entry(self)
+        self.data_name.grid(row = 1, column = 1)
+
+        self.value = Entry(self)
+        self.value.grid(row = 1, column = 3)
         
-        bar = Button(self, text = "Bar Graph", fg = "Blue")#Button for create bar graph
-        circle = Button(self, text = "Circle Graph", fg = "Purple")#Button for create circle graph
+        bar = Button(self, text = "Bar Graph", fg = "Blue")
+        circle = Button(self, text = "Circle Graph", fg = "Purple")
         bar.grid(row = 6, column = 1)
         circle.grid(row = 6, column = 2)
         
-        test = Button(self, text = "Testing", command=self.on_button)
+        test = Button(self, text = "Get_data", command=self.on_button)
         test.grid(row = 7, column =1)
 
         self.n_window = Button(self, text = "Drawing Canvas", command = self.create_window)
         self.n_window.grid(row = 8, column =2)
         
     def on_button(self):
-        print self.data1.get()
+        self.count += 1
+        self.data[self.data_name.get()] = self.value.get()
+        print self.data
 
     def create_window(self):
-        t = Toplevel(self)
-        graph = Canvas(t, width = 500,height = 500, borderwidth=5,\
+        self.t = Toplevel(self)
+        graph = Canvas(self.t, width = 600,height = 600, borderwidth=5,\
                        background='white')
         graph.pack()
-        
 
 def main():
     
     root = Tk()
-    root.geometry("350x150+300+300")
+    root.geometry("400x200+300+300")
     app = Test(root)
     root.mainloop()
 
