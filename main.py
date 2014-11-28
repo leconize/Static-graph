@@ -14,17 +14,24 @@ class Test(Frame):
         self.initUI()#call UI
 
     def on_button(self):
+        '''
+        get value and value's name save them in to dic for calculate function
+        '''
         self.count += 1
         self.data[self.data_name.get()] = self.value.get()
         print self.data
 
     def create_window(self):
+        '''
+        prototype function made for create graph
+        '''
         self.t = Toplevel(self)
-        graph = Canvas(self.t, width = 600,height = 600, borderwidth=5,\
-                       background='white')
+        graph = Canvas(self.t, width = 600,height = 600, borderwidth=5, background='white')
+        graph.create_arc((10,10,152,152), outline = "#FAF402", fill = "#FAF402"\
+                         , start = 100, extent = 100)
         graph.pack()
 
-    def initUI(self): # User Interface 
+    def initUI(self): # User Interface
       
         self.parent.title("Graph-Creater")
         self.pack(fill=BOTH, expand=1)
@@ -34,10 +41,12 @@ class Test(Frame):
 
         Label(self, text = "Name").grid(row = 1)
         Label(self, text = "Value").grid(row = 1,column = 2)
-        
+
+        self.data_name = StringVar()
         self.data_name = Entry(self)
         self.data_name.grid(row = 1, column = 1)
 
+        self.value = DoubleVar()
         self.value = Entry(self)
         self.value.grid(row = 1, column = 3)
         
