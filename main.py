@@ -21,7 +21,6 @@ class App(Frame):
         self.count += 1
         name, value = self.data_name.get(), self.value.get()
         self.data.append((name, value))
-        self.show_value.insert(END, name,value)
         print self.data
 
     def drawing_circle(self):
@@ -42,8 +41,26 @@ class App(Frame):
             start += extent
         graph.pack()
 
+    def draw_bar(self):
+        '''
+        Create bar graph from data
+        '''
+        self.bar = Toplevel(self)
+        graph = Canvas(self.bar, width = 600, height= 600, borderwidth = 5, background = 'white')
+        bar_width = 500/(self.count*2+1)
+        x_1 = bar_width
+        if max([float(self.data[i][1]) for i in xrange(self.count)]) > 500:
+            scale = 500/max([float(self.data[i][1]) for i in xrange(self.count)])
+        else:
+            scale = 1
+        for x in xrange(self.count):
+            graph.create_rectangle(x_1, 550-float(self.data[x][1])*scale, x_1+bar_width, 550, fill = self.color[x])
+            x_1 = x_1+bar_width+bar_width/2
+        graph.pack()
     def initUI(self): # User Interface
-      
+        '''
+        User interface function
+        '''
         self.parent.title("Graph-Creater")
         self.pack(fill=BOTH, expand=1)
         
@@ -61,7 +78,7 @@ class App(Frame):
         self.value = Entry(self)
         self.value.grid(row = 1, column = 3)
         
-        bar = Button(self, text = "Bar Graph",bg = "Darkolivegreen", fg = "Aliceblue")
+        bar = Button(self, text = "Bar Graph",bg = "Darkolivegreen", fg = "Aliceblue", command = self.draw_bar)
         circle = Button(self, text = "Circle Graph", bg ="Darkolivegreen", fg = "Aquamarine",  command = self.drawing_circle)
         bar.grid(row = 6, column = 1)
         circle.grid(row = 6, column = 2)
@@ -69,8 +86,7 @@ class App(Frame):
         get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.on_button)
         get_value.grid(row = 7, column =1)
 
-        self.show_value = Listbox()#make listbox for user can see what they input
-        self.show_value.pack()
+        
     
 
 def main():
