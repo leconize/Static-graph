@@ -1,11 +1,12 @@
 '''Project Graph creater'''
 from Tkinter import *
+import tkMessageBox
 
 class App(Frame):
     
     count = 0
     data = []
-    color = ["Tomato", "Chartreuse", "Darkturquoise", "Deeppink", "Gold"]
+    color = ["Tomato", "Chartreuse", "Darkturquoise", "Deeppink", "Gold", "Maroon","DarkBlue", "DarkKhaki", "SandyBrown", "LightSalmon", "IndianRed"]
     
     def __init__(self, parent):
         Frame.__init__(self, parent)
@@ -18,9 +19,17 @@ class App(Frame):
         '''
         get value and value's name save them in to dic for calculate function
         '''
-        self.count += 1
         name, value = self.data_name.get(), self.value.get()
-        self.data.append((name, value))
+        if name =="":
+            tkMessageBox.showerror('Error', 'Please input the name')
+            return
+        try:
+            int(value)
+        except:
+            tkMessageBox.showerror('Error', 'the value can not be word')
+            return
+        self.count += 1
+        self.data.append((name, int(value)))
         print self.data
 
     def drawing_circle(self):
@@ -36,10 +45,12 @@ class App(Frame):
         for i in xrange(self.count):
             extent = float(self.data[i][1])*360/all_value
             print start, extent
-            graph.create_arc((10,10,152,152), outline = self.color[i], fill = self.color[i]\
+            graph.create_arc((150,150,450,450), outline = self.color[i], fill = self.color[i]\
                          , start = start, extent = extent)
             start += extent
         graph.pack()
+        Button(self.t, text = "Exit", command = self.t.destroy).pack()
+        
 
     def draw_bar(self):
         '''
@@ -57,6 +68,27 @@ class App(Frame):
             graph.create_rectangle(x_1, 550-float(self.data[x][1])*scale, x_1+bar_width, 550, fill = self.color[x])
             x_1 = x_1+bar_width+bar_width/2
         graph.pack()
+        self.cal()
+
+    def cal(self):
+        '''
+        calcurate  max min average and medium
+        '''
+        lis = [self.data[i][1] for i in xrange(self.count)]
+        maximum = max(lis)
+        minimum = min(lis)
+        average = sum(lis)/len(lis)
+        lis.sort()
+        if len(lis)%2 == 0:
+            medium = (lis[len(lis)/2]+lis[len(lis)/2-1])/2
+        else:
+            medium = lis[len(lis)/2]
+        ans = Listbox(self)
+        ans.insert(END, maximum)
+        ans.insert(END, minimum)
+        ans.insert(END, average)
+        ans.insert(END, medium)
+        ans.pack()
     def initUI(self): # User Interface
         '''
         User interface function
