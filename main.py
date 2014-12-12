@@ -124,6 +124,7 @@ class App(Frame):
 def main():
     root = Tk()
     root.geometry("400x200+300+300")
+    root.resizable(width=FALSE, height=FALSE)
     app = App(root)
     root.mainloop()
 
