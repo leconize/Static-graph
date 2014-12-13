@@ -192,6 +192,7 @@ def main():
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     root.geometry("400x200+300+300")
 =======
@@ -204,6 +205,8 @@ def main():
 =======
     root.geometry("400x200+300+300")
 >>>>>>> parent of e42ed2d... fix fail git merge
+=======
+>>>>>>> parent of d2c5dd5... Add icon for program
     root.resizable(width=FALSE, height=FALSE)
 >>>>>>> 723d6f444d7bcbea846190a156e7a039d6b28f79
     app = App(root)
