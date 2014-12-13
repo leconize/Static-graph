@@ -1,23 +1,12 @@
 '''Project Graph creater'''
 from Tkinter import *
-<<<<<<< HEAD
 from PIL import Image,ImageTk
 import tkMessageBox
 import ttk
 
 class App(Frame):
     
-    count = 2
-    data = [['a',10],['b',10]]
-=======
-import tkMessageBox
-
-class App(Frame):
-    
-    count = 0
-    data = []
-    color = ["Tomato", "Chartreuse", "Darkturquoise", "Deeppink", "Gold", "Maroon","DarkBlue", "DarkKhaki", "SandyBrown", "LightSalmon", "IndianRed"]
->>>>>>> 723d6f444d7bcbea846190a156e7a039d6b28f79
+    data = [['a',10],['b',20]]
     
     def __init__(self, parent):
         Frame.__init__(self, parent)
@@ -39,7 +28,6 @@ class App(Frame):
         except:
             tkMessageBox.showerror('Error', 'the value can not be word')
             return
-        self.count += 1
         self.data.append((name, int(value)))
         print self.data
 
@@ -75,7 +63,7 @@ class App(Frame):
         hsb = Scrollbar(orient='horizontal', command=self.table.xview)
         self.table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
         self.table.grid(row = 8, column = 1)
-
+        
         #vsb.grid(column=2,row=0,sticky ='ns')
         #hsb.grid(column=1,row=9,sticky='ew')
 
@@ -87,11 +75,13 @@ class Graph:
         self.graph = Toplevel(tk)
         self.data = data
         self.count = len(data)
+        self.value = [i[1] for i in self.data]
         if mode == 1:
             self.draw_bar()
         else:
             self.draw_circle()
-
+        self.namebox()
+        self.cal()
     def draw_circle(self):
         '''
         prototype function made for create graph
@@ -107,44 +97,58 @@ class Graph:
             graph.create_arc((150,150,450,450), outline = self.color[i], fill = self.color[i]\
                          , start = start, extent = extent)
             start += extent
-        graph.pack()
-<<<<<<< HEAD
-        #self.cal(self.graph)
+        graph.pack(side= LEFT)
         #Button(self.t, text = "Exit", command = self.t.destroy).pack()
-=======
-        Button(self.t, text = "Exit", command = self.t.destroy).pack()
-        
->>>>>>> 723d6f444d7bcbea846190a156e7a039d6b28f79
 
     def draw_bar(self):
         '''
         Create bar graph from data
         '''
         graph = Canvas(self.graph, width = 600, height= 600, borderwidth = 5, background = 'white')
-        bar_width = 500/(self.count*2+1)
-        x_1 = bar_width
-        if max([float(self.data[i][1]) for i in xrange(self.count)]) > 500:
-            scale = 500/max([float(self.data[i][1]) for i in xrange(self.count)])
-        else:
-            scale = 1
+        size = 575
+        bar_width = 500/(self.count*3+1)
+        x_1 = bar_width+50
+        temp = 0
+        level = 10
+        while max(self.value) > temp:
+            for i in [1, 2 ,5]:
+                temp = level*i
+                if temp >= max(self.value):
+                    break
+            level *= 10
+        scale = 500.0/temp
         for x in xrange(self.count):
-            graph.create_rectangle(x_1, 550-float(self.data[x][1])*scale, x_1+bar_width, 550, fill = self.color[x])
-            print x_1+bar_width
-            x_1 = x_1+bar_width+bar_width/2
-        graph.create_line(20,25,20,550)
-        graph.create_line(20,25,30,35)
-        graph.create_line(20,25,10,35)
-        graph.create_line(20,550,450,550)
-        graph.create_line(450,550,440,540)
-        graph.create_line(450,550,440,560)
-        graph.pack()
-<<<<<<< HEAD
+            graph.create_rectangle(x_1,575-float(self.data[x][1])*scale, x_1+bar_width*2, 575, fill = self.color[x])
+            x_1 = x_1+bar_width*3
+        #y-axis
+        graph.create_line(50,25,50,575)
+        #y-axis arrow
+        graph.create_line(50,25,60,35)
+        graph.create_line(50,25,40,35)
+        for i in xrange(5):
+            mark = (temp-(temp/5)*i)*scale
+            graph.create_text(25,575-mark, text=str(temp-(temp/5)*i))
+            graph.create_line(45,575-mark,55,575-mark)
+        #x-axis
+        graph.create_line(50,575,550,575)
+        #x-axis arrow
+        graph.create_line(550,575,540,585)
+        graph.create_line(550,575,540,565)
+        graph.pack(side = LEFT)
         #self.cal(self.graph)
-
-    def cal(self, name):
-=======
-        self.cal()
-
+        
+    def namebox(self):
+        box = Canvas(self.graph, width = 200, height = 300, background = 'white')
+        name_list = [i[0] for i in self.data]
+        temp = [10,30]
+        for i in xrange(2):
+            box.create_rectangle(10,temp[0],30,temp[1], fill = self.color[i])
+            box.create_text(40,(temp[0]+temp[1])/2, text = name_list[i])
+            temp = map(lambda x : x+30, temp)  
+        frame = ttk.Frame(self.graph, relief=RAISED, borderwidth=10)
+        frame.pack(side = LEFT, fill = Y, expand = 1)
+        box.pack(side =TOP, anchor = NE)
+    
     def cal(self):
         '''
         calcurate  max min average and medium
@@ -158,57 +162,21 @@ class Graph:
             medium = (lis[len(lis)/2]+lis[len(lis)/2-1])/2
         else:
             medium = lis[len(lis)/2]
-        ans = Listbox(self)
+        ans = Listbox(self.graph)
         ans.insert(END, maximum)
         ans.insert(END, minimum)
         ans.insert(END, average)
         ans.insert(END, medium)
-        ans.pack()
-    def initUI(self): # User Interface
->>>>>>> 723d6f444d7bcbea846190a156e7a039d6b28f79
-        '''
-        calcurate  max min average and medium
-        '''
-        lis = [self.data[i][1] for i in xrange(self.count)]
-        maximum = max(lis)
-        minimum = min(lis)
-        average = sum(lis)/len(lis)
-        lis.sort()
-        if len(lis)%2 == 0:
-            medium = (lis[len(lis)/2]+lis[len(lis)/2-1])/2
-        else:
-            medium = lis[len(lis)/2]
-        ans = Listbox(name)
-        ans.insert(END, maximum)
-        ans.insert(END, minimum)
-        ans.insert(END, average)
-        ans.insert(END, medium)
-        ans.pack()
-
-    
+        Label(self.graph, text = 'Statistic value').pack(side=TOP, anchor = N)
+        ans.pack(side = TOP, fill = 'both' ,expand= 1)
         
 def main():
     root = Tk()
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    root.geometry("400x200+300+300")
-=======
     img = Image.open("icon.gif")
     tkpi = ImageTk.PhotoImage(img)
-    label_image = Label(root, image=tkpi)
-    label_image.pack()
->>>>>>> origin/master
-=======
-=======
-    root.geometry("400x200+300+300")
->>>>>>> parent of e42ed2d... fix fail git merge
-=======
->>>>>>> parent of d2c5dd5... Add icon for program
+    #label_image = Label(root, image=tkpi)
+    #label_image.pack()
     root.resizable(width=FALSE, height=FALSE)
->>>>>>> 723d6f444d7bcbea846190a156e7a039d6b28f79
     app = App(root)
     root.mainloop()
 
