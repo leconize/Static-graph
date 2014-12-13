@@ -1,5 +1,6 @@
 '''Project Graph creater'''
 from Tkinter import *
+<<<<<<< HEAD
 from PIL import Image,ImageTk
 import tkMessageBox
 import ttk
@@ -8,6 +9,15 @@ class App(Frame):
     
     count = 2
     data = [['a',10],['b',10]]
+=======
+import tkMessageBox
+
+class App(Frame):
+    
+    count = 0
+    data = []
+    color = ["Tomato", "Chartreuse", "Darkturquoise", "Deeppink", "Gold", "Maroon","DarkBlue", "DarkKhaki", "SandyBrown", "LightSalmon", "IndianRed"]
+>>>>>>> 723d6f444d7bcbea846190a156e7a039d6b28f79
     
     def __init__(self, parent):
         Frame.__init__(self, parent)
@@ -98,8 +108,13 @@ class Graph:
                          , start = start, extent = extent)
             start += extent
         graph.pack()
+<<<<<<< HEAD
         #self.cal(self.graph)
         #Button(self.t, text = "Exit", command = self.t.destroy).pack()
+=======
+        Button(self.t, text = "Exit", command = self.t.destroy).pack()
+        
+>>>>>>> 723d6f444d7bcbea846190a156e7a039d6b28f79
 
     def draw_bar(self):
         '''
@@ -123,9 +138,34 @@ class Graph:
         graph.create_line(450,550,440,540)
         graph.create_line(450,550,440,560)
         graph.pack()
+<<<<<<< HEAD
         #self.cal(self.graph)
 
     def cal(self, name):
+=======
+        self.cal()
+
+    def cal(self):
+        '''
+        calcurate  max min average and medium
+        '''
+        lis = [self.data[i][1] for i in xrange(self.count)]
+        maximum = max(lis)
+        minimum = min(lis)
+        average = sum(lis)/len(lis)
+        lis.sort()
+        if len(lis)%2 == 0:
+            medium = (lis[len(lis)/2]+lis[len(lis)/2-1])/2
+        else:
+            medium = lis[len(lis)/2]
+        ans = Listbox(self)
+        ans.insert(END, maximum)
+        ans.insert(END, minimum)
+        ans.insert(END, average)
+        ans.insert(END, medium)
+        ans.pack()
+    def initUI(self): # User Interface
+>>>>>>> 723d6f444d7bcbea846190a156e7a039d6b28f79
         '''
         calcurate  max min average and medium
         '''
@@ -149,6 +189,11 @@ class Graph:
         
 def main():
     root = Tk()
+<<<<<<< HEAD
+=======
+    root.geometry("400x200+300+300")
+    root.resizable(width=FALSE, height=FALSE)
+>>>>>>> 723d6f444d7bcbea846190a156e7a039d6b28f79
     app = App(root)
     root.mainloop()
 
