@@ -192,8 +192,15 @@ class Graph:
 def main():
     root = Tk()
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     root.geometry("400x200+300+300")
+=======
+    img = Image.open("icon.gif")
+    tkpi = ImageTk.PhotoImage(img)
+    label_image = Label(root, image=tkpi)
+    label_image.pack()
+>>>>>>> origin/master
     root.resizable(width=FALSE, height=FALSE)
 >>>>>>> 723d6f444d7bcbea846190a156e7a039d6b28f79
     app = App(root)
