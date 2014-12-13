@@ -41,30 +41,32 @@ class App(Frame):
         self.pack(fill=BOTH, expand=1)
         
         label = Label(self, text = "Graph Creater")
-        label.grid(row = 0, column = 1)
+        label.pack()
 
-        Label(self, text = "Name").grid(row = 1)
-        Label(self, text = "Value").grid(row = 1,column = 2)
-        
+        Label(self, text = "Name").pack(side = LEFT)
         self.data_name = Entry(self)
-        self.data_name.grid(row = 1, column = 1)
-
+        self.data_name.pack(side = LEFT)
+        
+        Label(self, text = "Value").pack(side = LEFT)
         self.value = Entry(self)
-        self.value.grid(row = 1, column = 3)
+        self.value.pack()
         
         bar = Button(self, text = "Bar Graph",bg = "Darkolivegreen", fg = "Aliceblue", command = lambda x = 1 : Graph(self, self.data, x))
         circle = Button(self, text = "Circle Graph", bg ="Darkolivegreen", fg = "Aquamarine",  command = lambda x = 0 : Graph(self, self.data, x))
-        bar.grid(row = 6, column = 1)
-        circle.grid(row = 6, column = 2)
-        
-        get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.on_button)
-        get_value.grid(row = 7, column =1)
+        container = Frame(self.parent)
+        container.pack(fill='both', expand=True)
 
-        self.table = ttk.Treeview(self, columns=['Name', 'Value'], show = "headings")
-        vsb = Scrollbar(orient='vertical', command=self.table.yview)
-        hsb = Scrollbar(orient='horizontal', command=self.table.xview)
-        self.table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
-        self.table.grid(row = 8, column = 1)
+        #bar.grid(row = 0, column = 0)
+        circle.pack()
+        
+        #get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.on_button)
+        #get_value.pack()
+
+        #self.table = ttk.Treeview(self, columns=['Name', 'Value'], show = "headings")
+        #vsb = Scrollbar(orient='vertical', command=self.table.yview)
+        #hsb = Scrollbar(orient='horizontal', command=self.table.xview)
+        #self.table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+        #self.table.pack(fill = "both")
 
         #vsb.grid(column=2,row=0,sticky ='ns')
         #hsb.grid(column=1,row=9,sticky='ew')
