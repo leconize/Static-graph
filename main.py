@@ -38,32 +38,37 @@ class App(Frame):
         '''
         self.parent.title("Graph-Creater")
         self.pack(fill=BOTH, expand=1)
-        
-        label = Label(self, text = "Graph Creater")
-        label.grid(row = 0, column = 1)
 
-        Label(self, text = "Name").grid(row = 1)
-        Label(self, text = "Value").grid(row = 1,column = 2)
+        get_frame = ttk.Frame(self, relief=RAISED, borderwidth=10)
+        get_frame.pack(side = LEFT, fill='both', expand = True)
+        label = Label(self, text = "Graph Creater")
+        label.grid(row = 0, column = 1, in_=get_frame)
+
+        Label(self, text = "Name").grid(row = 1, in_=get_frame)
+        Label(self, text = "Value").grid(row = 2,column = 0,in_=get_frame, )
         
         self.data_name = Entry(self)
-        self.data_name.grid(row = 1, column = 1)
+        self.data_name.grid(row = 1, column = 1, in_=get_frame)
 
         self.value = Entry(self)
-        self.value.grid(row = 1, column = 3)
+        self.value.grid(row = 2, column = 1, in_=get_frame)
+
+        get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.on_button)
+        get_value.grid(row = 6, column =1, in_=get_frame)
         
         bar = Button(self, text = "Bar Graph",bg = "Darkolivegreen", fg = "Aliceblue", command = lambda x = 1 : Graph(self, self.data, x))
         circle = Button(self, text = "Circle Graph", bg ="Darkolivegreen", fg = "Aquamarine",  command = lambda x = 0 : Graph(self, self.data, x))
-        bar.grid(row = 6, column = 1)
-        circle.grid(row = 6, column = 2)
-        
-        get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.on_button)
-        get_value.grid(row = 7, column =1)
+        bar.grid(row = 7, column = 1, in_=get_frame)
+        circle.grid(row = 7, column = 2, in_=get_frame)
+
+        frame = ttk.Frame(self, relief=RAISED, borderwidth=10)
+        frame.pack(side =BOTTOM)
 
         self.table = ttk.Treeview(self, columns=['Name', 'Value'], show = "headings")
         vsb = Scrollbar(orient='vertical', command=self.table.yview)
         hsb = Scrollbar(orient='horizontal', command=self.table.xview)
         self.table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
-        self.table.grid(row = 8, column = 1)
+        self.table.grid(row = 0, column=0, in_=frame)
         
         #vsb.grid(column=2,row=0,sticky ='ns')
         #hsb.grid(column=1,row=9,sticky='ew')
@@ -182,7 +187,7 @@ def main():
     img = Image.open("icon.gif")
     tkpi = ImageTk.PhotoImage(img)
     label_image = Label(root, image=tkpi)
-    label_image.pack()
+    label_image.pack(side = TOP, padx = 5, pady = 5)
     root.resizable(width=FALSE, height=FALSE)
     app = App(root)
     root.mainloop()
