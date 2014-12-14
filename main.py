@@ -47,7 +47,7 @@ class App(Frame):
         label.grid(row = 0, column = 1, in_=get_frame)
 
         Label(self, text = "Name", background = 'khaki').grid(row = 1, in_=get_frame)
-        Label(self, text = "Value", background = 'khaki').grid(row = 2,column = 0,in_=get_frame, )
+        Label(self, text = "Value", background = 'khaki').grid(row = 2,column = 0,in_=get_frame)
         
         self.data_name = Entry(self)
         self.data_name.grid(row = 1, column = 1, in_=get_frame)
