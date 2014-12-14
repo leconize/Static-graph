@@ -56,12 +56,16 @@ class App(Frame):
         self.value.grid(row = 2, column = 1, in_=get_frame)
 
         get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.get_data)
-        get_value.grid(row = 6, column =1, in_=get_frame)
+        get_value.grid(row = 6, column =0, in_=get_frame)
+        reset_value = Button(self, text = "Reset_value", bg = "Navy", fg = "firebrick1")
+        reset_value.grid(row = 6, column =1, in_=get_frame)
+        remove_value = Button(self, text = "Remove_value", bg = "Navy", fg = "Darkorange")
+        remove_value.grid(row = 6, column = 2, in_= get_frame)
         
-        bar = Button(self, text = "Bar Graph",bg = "Darkolivegreen", fg = "Aliceblue", command = lambda x = 1 : Graph(self, self.data, x))
-        circle = Button(self, text = "Circle Graph", bg ="Darkolivegreen", fg = "Aquamarine",  command = lambda x = 0 : Graph(self, self.data, x))
-        bar.grid(row = 7, column = 1, in_=get_frame)
-        circle.grid(row = 7, column = 2, in_=get_frame)
+        bar = Button(self, text = "Bar Graph",bg = "dark slate gray", fg = "Aquamarine", command = lambda x = 1 : Graph(self, self.data, x))
+        circle = Button(self, text = "Circle Graph", bg ="dark slate gray", fg = "Aquamarine",  command = lambda x = 0 : Graph(self, self.data, x))
+        bar.grid(row = 8, column = 1, in_=get_frame)
+        circle.grid(row = 8, column = 2, in_=get_frame)
 
         frame = ttk.Frame(self, relief=RAISED, borderwidth=10)
         frame.pack(side =BOTTOM)
