@@ -7,7 +7,7 @@ import ttk
 class App(Frame):
     
     data = [['a',10],['b',20]]
-    
+    limit = 0
     def __init__(self, parent):
         Frame.__init__(self, parent)
          
@@ -15,7 +15,7 @@ class App(Frame):
         
         self.initUI()#call UI
 
-    def on_button(self):
+    def get_data(self):
         '''
         get value and value's name save them in to dic for calculate function
         '''
@@ -28,8 +28,10 @@ class App(Frame):
         except:
             tkMessageBox.showerror('Error', 'the value can not be word')
             return
+        if self.limit == 10:
+            tkMessageBox.showerror('Error', 'Data limit at 10')
         self.data.append((name, int(value)))
-        print self.data
+        self.limit += 1
 #-----------------------------------------------------------------------------------------------------------------------
 
     def initUI(self): # User Interface
@@ -39,13 +41,13 @@ class App(Frame):
         self.parent.title("Graph-Creater")
         self.pack(fill=BOTH, expand=1)
 
-        get_frame = ttk.Frame(self, relief=RAISED, borderwidth=10)
-        get_frame.pack(side = LEFT, fill='both', expand = True)
-        label = Label(self, text = "Graph Creater")
+        get_frame = Frame(self, relief=RAISED, borderwidth=1, background = 'khaki')
+        get_frame.pack(side = LEFT, fill='both', expand = True, padx = 5, pady = 5)
+        label = Label(self, text = "Graph Creater", background = "khaki")
         label.grid(row = 0, column = 1, in_=get_frame)
 
-        Label(self, text = "Name").grid(row = 1, in_=get_frame)
-        Label(self, text = "Value").grid(row = 2,column = 0,in_=get_frame, )
+        Label(self, text = "Name", background = 'khaki').grid(row = 1, in_=get_frame)
+        Label(self, text = "Value", background = 'khaki').grid(row = 2,column = 0,in_=get_frame, )
         
         self.data_name = Entry(self)
         self.data_name.grid(row = 1, column = 1, in_=get_frame)
@@ -53,7 +55,7 @@ class App(Frame):
         self.value = Entry(self)
         self.value.grid(row = 2, column = 1, in_=get_frame)
 
-        get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.on_button)
+        get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.get_data)
         get_value.grid(row = 6, column =1, in_=get_frame)
         
         bar = Button(self, text = "Bar Graph",bg = "Darkolivegreen", fg = "Aliceblue", command = lambda x = 1 : Graph(self, self.data, x))
@@ -152,7 +154,7 @@ class Graph:
         box = Canvas(self.graph, width = 200, height = 300, background = 'white')
         name_list = [i[0] for i in self.data]
         temp = [10,30]
-        for i in xrange(2):
+        for i in xrange(self.count):
             box.create_rectangle(10,temp[0],30,temp[1], fill = self.color[i])
             box.create_text(40,(temp[0]+temp[1])/2, text = name_list[i])
             temp = map(lambda x : x+30, temp)  
@@ -184,11 +186,12 @@ def main():
     Call the main window
     '''
     root = Tk()
-    img = Image.open("icon.gif")
+    img = Image.open("icon2.jpg")
     tkpi = ImageTk.PhotoImage(img)
     label_image = Label(root, image=tkpi)
     label_image.pack(side = TOP, padx = 5, pady = 5)
     root.resizable(width=FALSE, height=FALSE)
+    root.configure(background = 'white')
     app = App(root)
     root.mainloop()
 
