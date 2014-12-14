@@ -7,7 +7,11 @@ import ttk
 class App(Frame):
     
     data = [['a',10],['b',20]]
+<<<<<<< HEAD
     
+=======
+    limit = 0
+>>>>>>> b2c838fbfcf287205cc71ee6b56b7ae4bc746ba0
     def __init__(self, parent):
         Frame.__init__(self, parent)
          
@@ -15,7 +19,7 @@ class App(Frame):
         
         self.initUI()#call UI
 
-    def on_button(self):
+    def get_data(self):
         '''
         get value and value's name save them in to dic for calculate function
         '''
@@ -28,9 +32,34 @@ class App(Frame):
         except:
             tkMessageBox.showerror('Error', 'the value can not be word')
             return
+<<<<<<< HEAD
+=======
+        if self.limit == 10:
+            tkMessageBox.showerror('Error', 'Data limit at 10')
+>>>>>>> b2c838fbfcf287205cc71ee6b56b7ae4bc746ba0
         self.data.append((name, int(value)))
-        print self.data
+        self.limit += 1
+#-----------------------------------------------------------------------------------------------------------------------
 
+    def initUI(self): # User Interface
+        '''
+        Main window of the program insert name and value to create the graph
+        '''
+        self.parent.title("Graph-Creater")
+        self.pack(fill=BOTH, expand=1)
+
+        get_frame = Frame(self, relief=RAISED, borderwidth=1, background = 'khaki')
+        get_frame.pack(side = LEFT, fill='both', expand = True, padx = 5, pady = 5)
+        label = Label(self, text = "Graph Creater", background = "khaki")
+        label.grid(row = 0, column = 1, in_=get_frame)
+
+        Label(self, text = "Name", background = 'khaki').grid(row = 1, in_=get_frame)
+        Label(self, text = "Value", background = 'khaki').grid(row = 2,column = 0,in_=get_frame, )
+        
+        self.data_name = Entry(self)
+        self.data_name.grid(row = 1, column = 1, in_=get_frame)
+
+<<<<<<< HEAD
     def initUI(self): # User Interface
         '''
         User interface function
@@ -57,11 +86,27 @@ class App(Frame):
         
         get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.on_button)
         get_value.grid(row = 7, column =1)
+=======
+        self.value = Entry(self)
+        self.value.grid(row = 2, column = 1, in_=get_frame)
+
+        get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.get_data)
+        get_value.grid(row = 6, column =1, in_=get_frame)
+        
+        bar = Button(self, text = "Bar Graph",bg = "Darkolivegreen", fg = "Aliceblue", command = lambda x = 1 : Graph(self, self.data, x))
+        circle = Button(self, text = "Circle Graph", bg ="Darkolivegreen", fg = "Aquamarine",  command = lambda x = 0 : Graph(self, self.data, x))
+        bar.grid(row = 7, column = 1, in_=get_frame)
+        circle.grid(row = 7, column = 2, in_=get_frame)
+
+        frame = ttk.Frame(self, relief=RAISED, borderwidth=10)
+        frame.pack(side =BOTTOM)
+>>>>>>> b2c838fbfcf287205cc71ee6b56b7ae4bc746ba0
 
         self.table = ttk.Treeview(self, columns=['Name', 'Value'], show = "headings")
         vsb = Scrollbar(orient='vertical', command=self.table.yview)
         hsb = Scrollbar(orient='horizontal', command=self.table.xview)
         self.table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+<<<<<<< HEAD
         self.table.grid(row = 8, column = 1)
         
         #vsb.grid(column=2,row=0,sticky ='ns')
@@ -69,6 +114,17 @@ class App(Frame):
 
 class Graph:
 
+=======
+        self.table.grid(row = 0, column=0, in_=frame)
+        
+        #vsb.grid(column=2,row=0,sticky ='ns')
+        #hsb.grid(column=1,row=9,sticky='ew')
+#---------------------------------------------------------------------------------------------------------------------------------------
+class Graph:
+    '''
+    This Class will draw a bargraph and circlegraph from the data
+    '''
+>>>>>>> b2c838fbfcf287205cc71ee6b56b7ae4bc746ba0
     color = ["Tomato", "Chartreuse", "Darkturquoise", "Deeppink", "Gold", "Maroon","DarkBlue", "DarkKhaki", "SandyBrown", "LightSalmon", "IndianRed"]
     
     def __init__(self, tk, data, mode):
@@ -84,7 +140,7 @@ class Graph:
         self.cal()
     def draw_circle(self):
         '''
-        prototype function made for create graph
+        Draw the Circle graph from the data
         '''
         all_value = 0
         for name, value in self.data:
@@ -102,7 +158,7 @@ class Graph:
 
     def draw_bar(self):
         '''
-        Create bar graph from data
+        Draw the Bar graph from the data
         '''
         graph = Canvas(self.graph, width = 600, height= 600, borderwidth = 5, background = 'white')
         size = 575
@@ -136,12 +192,24 @@ class Graph:
         graph.create_line(550,575,540,565)
         graph.pack(side = LEFT)
         #self.cal(self.graph)
+<<<<<<< HEAD
         
     def namebox(self):
         box = Canvas(self.graph, width = 200, height = 300, background = 'white')
         name_list = [i[0] for i in self.data]
         temp = [10,30]
         for i in xrange(2):
+=======
+#----------------------------------------------------------------------------------------------------------------------- 
+    def namebox(self):
+        '''
+        Show the name and value of the Data
+        '''
+        box = Canvas(self.graph, width = 200, height = 300, background = 'white')
+        name_list = [i[0] for i in self.data]
+        temp = [10,30]
+        for i in xrange(self.count):
+>>>>>>> b2c838fbfcf287205cc71ee6b56b7ae4bc746ba0
             box.create_rectangle(10,temp[0],30,temp[1], fill = self.color[i])
             box.create_text(40,(temp[0]+temp[1])/2, text = name_list[i])
             temp = map(lambda x : x+30, temp)  
@@ -151,18 +219,17 @@ class Graph:
     
     def cal(self):
         '''
-        calcurate  max min average and medium
+        calcurate  the Statistic value that include max min average and medium
         '''
         lis = [self.data[i][1] for i in xrange(self.count)]
-        maximum = max(lis)
-        minimum = min(lis)
-        average = sum(lis)/len(lis)
+        maximum, minimum, average = max(lis), min(lis), sum(lis)/len(lis)
         lis.sort()
         if len(lis)%2 == 0:
             medium = (lis[len(lis)/2]+lis[len(lis)/2-1])/2
         else:
             medium = lis[len(lis)/2]
         ans = Listbox(self.graph)
+<<<<<<< HEAD
         ans.insert(END, maximum)
         ans.insert(END, minimum)
         ans.insert(END, average)
@@ -170,13 +237,34 @@ class Graph:
         Label(self.graph, text = 'Statistic value').pack(side=TOP, anchor = N)
         ans.pack(side = TOP, fill = 'both' ,expand= 1)
         
+=======
+        ans.insert(END, "Maximum" +" "+" = " + str(maximum))
+        ans.insert(END, "Minimum" +" "+" = " + str(minimum))
+        ans.insert(END, "Average" + " "+ " = " + str(average))
+        ans.insert(END, "Medium" + " "+ " = " + str(medium))
+        Label(self.graph, text = 'Statistic value').pack(side=TOP, anchor = N)
+        ans.pack(side = TOP, fill = 'both' ,expand= 1)
+#-----------------------------------------------------------------------------------------------------------------        
+>>>>>>> b2c838fbfcf287205cc71ee6b56b7ae4bc746ba0
 def main():
+    '''
+    Call the main window
+    '''
     root = Tk()
+<<<<<<< HEAD
     img = Image.open("icon.gif")
     tkpi = ImageTk.PhotoImage(img)
     #label_image = Label(root, image=tkpi)
     #label_image.pack()
     root.resizable(width=FALSE, height=FALSE)
+=======
+    img = Image.open("icon2.jpg")
+    tkpi = ImageTk.PhotoImage(img)
+    label_image = Label(root, image=tkpi)
+    label_image.pack(side = TOP, padx = 5, pady = 5)
+    root.resizable(width=FALSE, height=FALSE)
+    root.configure(background = 'white')
+>>>>>>> b2c838fbfcf287205cc71ee6b56b7ae4bc746ba0
     app = App(root)
     root.mainloop()
 
