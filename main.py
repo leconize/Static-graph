@@ -33,25 +33,6 @@ class App(Frame):
         self.data.append((name, int(value)))
         self.limit += 1
 #-----------------------------------------------------------------------------------------------------------------------
-
-    def initUI(self): # User Interface
-        '''
-        Main window of the program insert name and value to create the graph
-        '''
-        self.parent.title("Graph-Creater")
-        self.pack(fill=BOTH, expand=1)
-
-        get_frame = Frame(self, relief=RAISED, borderwidth=1, background = 'khaki')
-        get_frame.pack(side = LEFT, fill='both', expand = True, padx = 5, pady = 5)
-        label = Label(self, text = "Graph Creater", background = "khaki")
-        label.grid(row = 0, column = 1, in_=get_frame)
-
-        Label(self, text = "Name", background = 'khaki').grid(row = 1, in_=get_frame)
-        Label(self, text = "Value", background = 'khaki').grid(row = 2,column = 0,in_=get_frame, )
-        
-        self.data_name = Entry(self)
-        self.data_name.grid(row = 1, column = 1, in_=get_frame)
-
     def initUI(self): # User Interface
         '''
         User interface function
