@@ -33,6 +33,9 @@ class App(Frame):
         self.data.append((name, int(value)))
         self.limit += 1
         self.table.insert('', 'end', values = [name, int(value)])
+
+    def remove(self):
+        self.table.delete(self.table.focus())
 #-----------------------------------------------------------------------------------------------------------------------
 
     def initUI(self): # User Interface
@@ -60,7 +63,7 @@ class App(Frame):
         get_value.grid(row = 6, column =0, in_=get_frame, padx = 6)
         reset_value = Button(self, text = "Reset_value", bg = "Navy", fg = "firebrick1")
         reset_value.grid(row = 6, column =1, in_=get_frame)
-        remove_value = Button(self, text = "Remove_value", bg = "Navy", fg = "Darkorange")
+        remove_value = Button(self, text = "Remove_value", bg = "Navy", fg = "Darkorange", command = self.remove)
         remove_value.grid(row = 6, column = 2, in_= get_frame, pady = 10, padx = 6)
         self.grid_rowconfigure(6, weight = 1, pad = 1)
         
