@@ -32,44 +32,42 @@ class App(Frame):
             tkMessageBox.showerror('Error', 'Data limit at 10')
         self.data.append((name, int(value)))
         self.limit += 1
+        self.table.insert('', 'end', values = [name, int(value)])
 #-----------------------------------------------------------------------------------------------------------------------
+
     def initUI(self): # User Interface
         '''
-        User interface function
+        Main window of the program insert name and value to create the graph
         '''
         self.parent.title("Graph-Creater")
         self.pack(fill=BOTH, expand=1)
-        
-        label = Label(self, text = "Graph Creater")
-        label.grid(row = 0, column = 1)
 
-        Label(self, text = "Name").grid(row = 1)
-        Label(self, text = "Value").grid(row = 1,column = 2)
+        get_frame = Frame(self, relief=RAISED, borderwidth=1, background = 'khaki')
+        get_frame.pack(side = LEFT, fill='both', expand = True, padx = 5, pady = 5)
+        label = Label(self, text = "Graph Creater", background = "khaki")
+        label.grid(row = 0, column = 1, in_=get_frame)
+
+        Label(self, text = "Name", background = 'khaki').grid(row = 1, in_=get_frame)
+        Label(self, text = "Value", background = 'khaki').grid(row = 2,column = 0,in_=get_frame)
         
         self.data_name = Entry(self)
-        self.data_name.grid(row = 1, column = 1)
+        self.data_name.grid(row = 1, column = 1, in_=get_frame)
 
-        self.value = Entry(self)
-        self.value.grid(row = 1, column = 3)
-        
-        bar = Button(self, text = "Bar Graph",bg = "Darkolivegreen", fg = "Aliceblue", command = lambda x = 1 : Graph(self, self.data, x))
-        circle = Button(self, text = "Circle Graph", bg ="Darkolivegreen", fg = "Aquamarine",  command = lambda x = 0 : Graph(self, self.data, x))
-        bar.grid(row = 6, column = 1)
-        circle.grid(row = 6, column = 2)
-        
-        get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.on_button)
-        get_value.grid(row = 7, column =1)
-        
         self.value = Entry(self)
         self.value.grid(row = 2, column = 1, in_=get_frame)
 
         get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.get_data)
-        get_value.grid(row = 6, column =1, in_=get_frame)
+        get_value.grid(row = 6, column =0, in_=get_frame, padx = 6)
+        reset_value = Button(self, text = "Reset_value", bg = "Navy", fg = "firebrick1")
+        reset_value.grid(row = 6, column =1, in_=get_frame)
+        remove_value = Button(self, text = "Remove_value", bg = "Navy", fg = "Darkorange")
+        remove_value.grid(row = 6, column = 2, in_= get_frame, pady = 10, padx = 6)
+        self.grid_rowconfigure(6, weight = 1, pad = 1)
         
-        bar = Button(self, text = "Bar Graph",bg = "Darkolivegreen", fg = "Aliceblue", command = lambda x = 1 : Graph(self, self.data, x))
-        circle = Button(self, text = "Circle Graph", bg ="Darkolivegreen", fg = "Aquamarine",  command = lambda x = 0 : Graph(self, self.data, x))
-        bar.grid(row = 7, column = 1, in_=get_frame)
-        circle.grid(row = 7, column = 2, in_=get_frame)
+        bar = Button(self, text = "Bar Graph",bg = "dark slate gray", fg = "Aquamarine", command = lambda x = 1 : Graph(self, self.data, x))
+        circle = Button(self, text = "Circle Graph", bg ="dark slate gray", fg = "Aquamarine",  command = lambda x = 0 : Graph(self, self.data, x))
+        bar.grid(row = 8, column = 0, in_=get_frame, padx = 10)
+        circle.grid(row = 8, column = 1, in_=get_frame)
 
         frame = ttk.Frame(self, relief=RAISED, borderwidth=10)
         frame.pack(side =BOTTOM)
@@ -79,6 +77,9 @@ class App(Frame):
         hsb = Scrollbar(orient='horizontal', command=self.table.xview)
         self.table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
         self.table.grid(row = 0, column=0, in_=frame)
+
+        for column in ['Name', 'Value']:
+            self.table.heading(column, text=column.title())
         
         #vsb.grid(column=2,row=0,sticky ='ns')
         #hsb.grid(column=1,row=9,sticky='ew')
@@ -87,7 +88,6 @@ class Graph:
     '''
     This Class will draw a bargraph and circlegraph from the data
     '''
-
     color = ["Tomato", "Chartreuse", "Darkturquoise", "Deeppink", "Gold", "Maroon","DarkBlue", "DarkKhaki", "SandyBrown", "LightSalmon", "IndianRed"]
     
     def __init__(self, tk, data, mode):
@@ -155,7 +155,6 @@ class Graph:
         graph.create_line(550,575,540,565)
         graph.pack(side = LEFT)
         #self.cal(self.graph)
-        
 #----------------------------------------------------------------------------------------------------------------------- 
     def namebox(self):
         '''
@@ -166,7 +165,7 @@ class Graph:
         temp = [10,30]
         for i in xrange(self.count):
             box.create_rectangle(10,temp[0],30,temp[1], fill = self.color[i])
-            box.create_text(40,(temp[0]+temp[1])/2, text = name_list[i])
+            box.create_text(40+(len(name_list[i])*2.5),(temp[0]+temp[1])/2, text = name_list[i])
             temp = map(lambda x : x+30, temp)  
         frame = ttk.Frame(self.graph, relief=RAISED, borderwidth=10)
         frame.pack(side = LEFT, fill = Y, expand = 1)
@@ -184,8 +183,6 @@ class Graph:
         else:
             medium = lis[len(lis)/2]
         ans = Listbox(self.graph)
-        Label(self.graph, text = 'Statistic value').pack(side=TOP, anchor = N)
-        ans.pack(side = TOP, fill = 'both' ,expand= 1)
         ans.insert(END, "Maximum" +" "+" = " + str(maximum))
         ans.insert(END, "Minimum" +" "+" = " + str(minimum))
         ans.insert(END, "Average" + " "+ " = " + str(average))
