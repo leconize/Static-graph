@@ -6,7 +6,7 @@ import ttk
 
 class App(Frame):
     
-    data = [['a',10],['b',20]]
+    data = []
     limit = 0
     def __init__(self, parent):
         Frame.__init__(self, parent)
@@ -30,7 +30,7 @@ class App(Frame):
             return
         if self.limit == 10:
             tkMessageBox.showerror('Error', 'Data limit at 10')
-        self.data.append((name, int(value)))
+        self.data = [(name, int(value))] + self.data
         self.limit += 1
         self.table.insert('', 'end', values = [name, int(value)])
 
