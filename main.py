@@ -119,15 +119,16 @@ class Graph:
             all_value += float(value)    
         graph = Canvas(self.graph, width = 600,height = 600, borderwidth=5, background='white')
         start = 0
-        for i in xrange(self.count):
-            extent = float(self.data[i][1])*360/all_value
-            print start, extent
-            graph.create_arc((150,150,450,450), outline = self.color[i], fill = self.color[i]\
+        if self.count == 1:
+            graph.create_oval(150,150,450,450, outline = self.color[0], fill = self.color[0])
+        else:    
+            for i in xrange(self.count):
+                extent = float(self.data[i][1])*360/all_value
+                graph.create_arc((150,150,450,450), outline = self.color[i], fill = self.color[i]\
                          , start = start, extent = extent)
-            start += extent
+                start += extent
         graph.pack(side= LEFT)
-        #Button(self.t, text = "Exit", command = self.t.destroy).pack()
-
+        
     def draw_bar(self):
         '''
         Draw the Bar graph from the data
