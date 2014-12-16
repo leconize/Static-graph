@@ -30,14 +30,14 @@ class App(Frame):
             return
         if self.limit == 10:
             tkMessageBox.showerror('Error', 'Data limit at 10')
-        self.data = [(name, int(value))] + self.data
+        self.data.append((name, int(value)))
         self.limit += 1
         self.table.insert('', 'end', values = [name, int(value)])
 
     def remove(self):
-        self.table.delete(self.table.focus())
-        self.data.remove(self.data[self.table.index(self.table.focus())])
-
+        xxx = self.table.focus()
+        self.data.remove(self.data[self.table.index(xxx)])
+        self.table.delete(xxx)
     def reset(self):
         map(self.table.delete, self.table.get_children())
         self.data = []
