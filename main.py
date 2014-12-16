@@ -36,6 +36,11 @@ class App(Frame):
 
     def remove(self):
         self.table.delete(self.table.focus())
+        self.data.remove(self.data[self.table.index(self.table.focus())])
+
+    def reset(self):
+        map(self.table.delete, self.table.get_children())
+        self.data = []
 #-----------------------------------------------------------------------------------------------------------------------
 
     def initUI(self): # User Interface
@@ -61,7 +66,7 @@ class App(Frame):
 
         get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.get_data)
         get_value.grid(row = 6, column =0, in_=get_frame, padx = 6)
-        reset_value = Button(self, text = "Reset_value", bg = "Navy", fg = "firebrick1")
+        reset_value = Button(self, text = "Reset_value", bg = "Navy", fg = "firebrick1",command = self.reset)
         reset_value.grid(row = 6, column =1, in_=get_frame)
         remove_value = Button(self, text = "Remove_value", bg = "Navy", fg = "Darkorange", command = self.remove)
         remove_value.grid(row = 6, column = 2, in_= get_frame, pady = 10, padx = 6)
@@ -76,16 +81,11 @@ class App(Frame):
         frame.pack(side =BOTTOM)
 
         self.table = ttk.Treeview(self, columns=['Name', 'Value'], show = "headings")
-        vsb = Scrollbar(orient='vertical', command=self.table.yview)
-        hsb = Scrollbar(orient='horizontal', command=self.table.xview)
-        self.table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
         self.table.grid(row = 0, column=0, in_=frame)
 
         for column in ['Name', 'Value']:
             self.table.heading(column, text=column.title())
         
-        #vsb.grid(column=2,row=0,sticky ='ns')
-        #hsb.grid(column=1,row=9,sticky='ew')
 #---------------------------------------------------------------------------------------------------------------------------------------
 class Graph:
     '''
