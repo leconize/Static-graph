@@ -5,7 +5,6 @@ import tkMessageBox
 import ttk
 
 class App(Frame):
-    
     data = []
     limit = 0
     
@@ -15,40 +14,7 @@ class App(Frame):
         self.parent = parent
         
         self.initUI()#call UI
-
-    def get_data(self):
-        '''
-        get value and value's name save them in to dic for calculate function
-        '''
-        name, value = self.data_name.get(), self.value.get()
-        if name =="":
-            tkMessageBox.showerror('Error', 'Please input the name')
-            return
-        try:
-            int(value)
-        except:
-            tkMessageBox.showerror('Error', 'the value can not be word')
-            return
-        if self.limit == 10:
-            tkMessageBox.showerror('Error', 'Data limit at 10')
-            return
-        self.data.append((name, int(value)))
-        self.limit += 1
-        self.table.insert('', 'end', values = [name, int(value)])
-
-    def remove(self):
-        temp = self.table.focus()
-        self.data.remove(self.data[self.table.index(temp)])
-        self.table.delete(temp)
-        self.limit -= 1
         
-    def reset(self):
-        map(self.table.delete, self.table.get_children())
-        self.data = []
-        self.limit = 0
-        
-#-----------------------------------------------------------------------------------------------------------------------
-
     def initUI(self): # User Interface
         '''
         Main window of the program insert name and value to create the graph
@@ -70,16 +36,21 @@ class App(Frame):
         self.value = Entry(self)
         self.value.grid(row = 2, column = 1, in_=get_frame)
 
-        get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue", command = self.get_data)
+        get_value = Button(self, text = "Get_data", bg = "Navy", fg = "Deepskyblue")
+        get_value["command"] = self.input_data
         get_value.grid(row = 6, column =0, in_=get_frame, padx = 6)
-        reset_value = Button(self, text = "Reset_value", bg = "Navy", fg = "firebrick1",command = self.reset)
+        reset_value = Button(self, text = "Reset_value", bg = "Navy", fg = "firebrick1")
+        reset_value["command"] = self.reset_data
         reset_value.grid(row = 6, column =1, in_=get_frame)
-        remove_value = Button(self, text = "Remove_value", bg = "Navy", fg = "Darkorange", command = self.remove)
+        remove_value = Button(self, text = "Remove_value", bg = "Navy", fg = "Darkorange")
+        remove_value["command"] = self.remove_data
         remove_value.grid(row = 6, column = 2, in_= get_frame, pady = 10, padx = 6)
         self.grid_rowconfigure(6, weight = 1, pad = 1)
         
-        bar = Button(self, text = "Bar Graph",bg = "dark slate gray", fg = "Aquamarine", command = lambda x = 1 : Graph(self, self.data, x))
-        circle = Button(self, text = "Circle Graph", bg ="dark slate gray", fg = "Aquamarine",  command = lambda x = 0 : Graph(self, self.data, x))
+        bar = Button(self, text = "Bar Graph",bg = "dark slate gray", fg = "Aquamarine")
+        bar["command"] = lambda x = 1 : Graph(self, self.data, x)
+        circle = Button(self, text = "Circle Graph", bg ="dark slate gray", fg = "Aquamarine")
+        circle["command"] = lambda x = 0 : Graph(self, self.data, x)
         bar.grid(row = 8, column = 0, in_=get_frame, padx = 10)
         circle.grid(row = 8, column = 1, in_=get_frame)
 
@@ -91,13 +62,55 @@ class App(Frame):
 
         for column in ['Name', 'Value']:
             self.table.heading(column, text=column.title())
+
+#-----------------------------------------------------------------------------------------------------------------------
+
+    def input_data(self):
+        '''
+        get value and value's name save them in to dic for calculate function
+        '''
+        name, value = self.data_name.get(), self.value.get()
+        if name =="":
+            tkMessageBox.showerror('Error', 'Please input the name')
+            return
+        try:
+            int(value)
+        except:
+            tkMessageBox.showerror('Error', 'the value can not be word')
+            return
+        if self.limit == 10:
+            tkMessageBox.showerror('Error', 'Data limit at 10')
+            return
+        self.data.append((name, int(value)))
+        self.limit += 1
+        self.table.insert('', 'end', values = [name, int(value)])
+
+    def remove_data(self):
+        '''
+    Remove Value from list and input-table
+        '''
+        temp = self.table.focus()
+        if temp != '':
+            self.data.remove(self.data[self.table.index(temp)])
+            self.table.delete(temp)
+            self.limit -= 1
+        
+    def reset_data(self):
+        '''
+    Reset Input
+        '''
+        map(self.table.delete, self.table.get_children())
+        self.data = []
+        self.limit = 0
         
 #---------------------------------------------------------------------------------------------------------------------------------------
+
 class Graph:
     '''
     This Class will draw a bargraph and circlegraph from the data
     '''
-    color = ["Tomato", "Chartreuse", "Darkturquoise", "Deeppink", "Gold", "Maroon","DarkBlue", "DarkKhaki", "SandyBrown", "LightSalmon", "IndianRed"]
+    color = ["Tomato", "Chartreuse", "Darkturquoise", "Deeppink", "Gold", "Maroon","DarkBlue",\
+             "DarkKhaki", "SandyBrown", "LightSalmon", "IndianRed"]
     
     def __init__(self, tk, data, mode):
         self.graph = Toplevel(tk)
@@ -110,6 +123,7 @@ class Graph:
             self.draw_circle()
         self.namebox()
         self.cal()
+        
     def draw_circle(self):
         '''
         Draw the Circle graph from the data
@@ -139,7 +153,7 @@ class Graph:
         x_1 = bar_width+50
         temp = 0
         level = 10
-        while max(self.value) > temp:
+        while max(self.value) > temp:#find level
             for i in [1, 2 ,5]:
                 temp = level*i
                 if temp >= max(self.value):
@@ -164,8 +178,9 @@ class Graph:
         graph.create_line(550,575,540,585)
         graph.create_line(550,575,540,565)
         graph.pack(side = LEFT)
-        #self.cal(self.graph)
-#----------------------------------------------------------------------------------------------------------------------- 
+        
+#-----------------------------------------------------------------------------------------------------------------------
+        
     def namebox(self):
         '''
         Show the name and value of the Data
@@ -199,7 +214,9 @@ class Graph:
         ans.insert(END, "Medium" + " "+ " = " + str(medium))
         Label(self.graph, text = 'Statistic value').pack(side=TOP, anchor = N)
         ans.pack(side = TOP, fill = 'both' ,expand= 1)
+        
 #-----------------------------------------------------------------------------------------------------------------        
+
 def main():
     '''
     Call the main window
@@ -216,4 +233,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
