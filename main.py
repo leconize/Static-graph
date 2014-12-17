@@ -5,6 +5,7 @@ import tkMessageBox
 import ttk
 
 class App(Frame):
+    
     data = []
     limit = 0
     
@@ -198,7 +199,7 @@ class Graph:
     
     def cal(self):
         '''
-        calcurate  the Statistic value that include max min average and medium
+        calculate  the Statistic value that include max min average and medium
         '''
         lis = [self.data[i][1] for i in xrange(self.count)]
         maximum, minimum, average = max(lis), min(lis), sum(lis)/len(lis)
